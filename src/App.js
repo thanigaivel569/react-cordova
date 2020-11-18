@@ -9,6 +9,7 @@ import * as productActions from './Action/ProductAction';
 import { withRouter } from "react-router-dom";
 //import ProductList from './Component/ProductList';
 // import QrReader from 'react-qr-reader'
+import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 
 
 
@@ -17,6 +18,7 @@ class App extends Component {
     super(props);
     this.state = {
       value : "Scan QRcode - Give camera access to scan",
+      dataDisplay:"",
       // result: 'No result',
       // scan: false
 
@@ -38,14 +40,25 @@ class App extends Component {
 
 //  changeState = () => {
 //   this.setState({
-//     scan:true
+//     data:data
 //   });
 //  }
+changeState = () => {
+  
+  var data =  BarcodeScanner.scan();
+  console.log(`Barcode data: ${data}`);
+  this.setState({
+        dataDisplay:data
+    });
+  
+ }
   render() {
     //alert(this.state.result);
     return (
       <div className="App">
         <Hello name={this.state.value} />
+        <p>{this.state.dataDisplay}</p>
+        <button type="button"onClick={this.changeState}>Scan</button>
        {/* <button type="button"onClick={this.changeState}>Scan</button> 
          {this.state.scan ?
          <div className="size">

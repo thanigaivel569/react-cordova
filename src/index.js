@@ -14,10 +14,19 @@ let sagaMiddleware = createSagaMiddleware();
 const store = createStore(rootReducer, applyMiddleware(sagaMiddleware, createLogger()));
 sagaMiddleware.run(rootSaga);
 
+const startApp = () => {
 ReactDOM.render(
     <Provider store={store}>
         <Router>
             <App />
         </Router>
     </Provider>, document.getElementById('root'));
-registerServiceWorker();
+    registerServiceWorker();
+}
+
+if(window.cordova){
+    document.addEventListener('deviceready', startApp, false);
+} else{
+    startApp()
+}
+
